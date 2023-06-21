@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.example</groupId>
+  <artifactId>jaxrs_resteasy</artifactId>
+  <version>1.0.0</version>
+
+  <name>sb-jaxrs-resteasy</name>
+  <description>Jaxrs Resteasy with Spring Boot</description>
+
+  <properties>
+    <jaxrs.api.version>2.1.1</jaxrs.api.version>
+    <!-- the last version that supports JAX-RS 2.0 (JSR-339) and JAX-RS 2.1 (JSR-370)-->
+    <resteasy.spring.boot.version>4.9.2.Final</resteasy.spring.boot.version>
+    <!--  version 3.x.x does not work with resteasy-spring-boot-starter 4.x.x -->
+    <spring.boot.version>2.7.3</spring.boot.version>
+    <java.version>17</java.version>
+
+    <resource.delimiter>@</resource.delimiter>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring.boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api -->
+    <dependency>
+      <groupId>javax.ws.rs</groupId>
+      <artifactId>javax.ws.rs-api</artifactId>
+      <version>${jaxrs.api.version}</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-spring-boot-starter -->
+    <dependency>
+      <groupId>org.jboss.resteasy</groupId>
+      <artifactId>resteasy-spring-boot-starter</artifactId>
+      <version>${resteasy.spring.boot.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
