@@ -4,6 +4,8 @@ COPY ${JAR_FILE} sb-build-layered-jar.jar
 RUN java -Djarmode=layertools -jar sb-build-layered-jar.jar extract
 
 FROM bellsoft/liberica-openjdk-alpine:17
+EXPOSE 8080
+
 #Each COPY directive results in a new layer in the final Docker image.
 COPY --from=builder dependencies/ ./
 COPY --from=builder snapshot-dependencies/ ./

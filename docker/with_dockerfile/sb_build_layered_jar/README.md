@@ -2,6 +2,8 @@
 
 * [Motivation](#motivation-to-have-layered-jar)
 * [Creation of layered jar](#creation-of-layered-jars)
+* [Docker specific commands](#docker-specific-commands)
+* [Spring Boot Docker official guide](https://spring.io/guides/topicals/spring-boot-docker/)
 
 ### Motivation to have layered jar
 
@@ -63,7 +65,7 @@ Configure `spring-boot-maven-plugin`:
   </build>
 ```
 
-### To examine the layers of any layered jar manually:
+#### To examine the layers of any layered jar manually:
 
 ```bash
 $ java -Djarmode=layertools -jar target/sb-build-layered-jar-1.0.0.jar list
@@ -73,16 +75,18 @@ snapshot-dependencies
 application
 ```
 
-### To extract layers (this command is used in [Dockerfile](Dockerfile)): 
+#### To extract layers (this command is used in [Dockerfile](Dockerfile)): 
 
 `java -Djarmode=layertools -jar target/sb-build-layered-jar-1.0.0.jar extract`
 
-### [Creating the Docker Image](Dockerfile)
+#### [Creating the Docker Image](Dockerfile)
 
-### Build image:
+### Docker specific commands
+
+#### Build image:
 * With docker cmd: `$ docker build -t sb_demo/sb_build_layered_jar:1.0.0 .
 
-### Analyze the image:
+#### Analyze the image:
 
 ```bash
 $ docker run --rm -it  \
@@ -90,7 +94,7 @@ $ docker run --rm -it  \
     sb_demo/sb_build_layered_jar:1.0.0
 ```
 
-### Run container:
+#### Run container:
 
 ```bash
 $ docker run -p 8080:8080 sb_demo/sb_build_layered_jar:1.0.0
@@ -106,7 +110,7 @@ Pass command line arguments, like `--server.port`:
 $ docker run -p 8080:9000 -e "JAVA_OPTS=-Xmx128m" sb_demo/sb_build_layered_jar:1.0.0 --server.port=9000
 ```
 
-### Send request:
+#### Send request (server is on port 9090, locally it is exposed to 8080):
 
 ```bash
 $ curl -i -X GET -w "\n" http://localhost:8080/rest
