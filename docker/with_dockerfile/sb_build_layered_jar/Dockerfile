@@ -1,7 +1,7 @@
 FROM bellsoft/liberica-openjdk-alpine:17 as builder
 ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} sb-build-layered-jar.jar
-RUN java -Djarmode=layertools -jar sb-build-layered-jar.jar extract
+COPY ${JAR_FILE} application.jar
+RUN java -Djarmode=layertools -jar application.jar extract
 
 FROM bellsoft/liberica-openjdk-alpine:17
 EXPOSE 8080

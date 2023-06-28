@@ -86,6 +86,32 @@ application
 #### Build image:
 * With docker cmd: `$ docker build -t sb_demo/sb_build_layered_jar:1.0.0 .
 
+    Notes: 
+    * you are responsible for setting docker repository and tag
+    * only your image is generated, the base image is not downloaded:
+      ```bash
+      $ docker image ls
+      REPOSITORY                     TAG       IMAGE ID       CREATED         SIZE
+      sb_demo/sb_build_layered_jar   1.0.0     72840633e994   6 seconds ago   145MB
+      ```
+
+* With maven `dockerfile-maven-plugin` from Spotify: `$ mvn dockerfile:build`
+
+  Notes: 
+    * docker repository and the tag (package version) are taken from the maven configuration
+    * the base image (`bellsoft/liberica-openjdk-alpine` in our case) is downloaded and is stored locally:
+      ```bash
+      $ docker image ls
+      REPOSITORY                         TAG       IMAGE ID       CREATED          SIZE
+      sb_demo/sb-build-layered-jar       1.0.0     414728b3ef36   19 seconds ago   145MB
+      bellsoft/liberica-openjdk-alpine   17        60522fc45417   5 weeks ago      126MB
+      ```
+    * there is some bug with the maven plugin, the 3rd image is produced with no tag.
+
+#### To publish docker image:
+* With docker: `$ docker push NAME[:TAG]`
+* With maven `dockerfile-maven-plugin` from Spotify: `$ mvn dockerfile:push`
+
 #### Analyze the image:
 
 ```bash
