@@ -5,19 +5,17 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.1.0</version>
+    <version>3.1.1</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>com.example</groupId>
-  <artifactId>sb-build-image</artifactId>
+  <artifactId>sb-build-layered-jar</artifactId>
   <version>1.0.0</version>
-  <name>sb_build_image</name>
-  <description>Spring Boot build-image goal</description>
-
+  <name>sb_build_layered_jar</name>
+  <description>sb_build_layered_jar</description>
   <properties>
     <java.version>17</java.version>
   </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -36,6 +34,11 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <layers>
+            <enabled>true</enabled>
+          </layers>
+        </configuration>
       </plugin>
     </plugins>
   </build>

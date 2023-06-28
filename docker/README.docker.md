@@ -18,9 +18,10 @@
 <summary> Without Dockerfile </summary>
 
 #### Pros:
-
+* The generated Docker image is multiple layers. So if we only change our application code, subsequent builds will be much faster:
 
 #### Cons:
+* A standard fat jar gets built.
 * You cannot control the parent image.
 * You cannot reuse a Dockerfile. If there is a Dockerfile located within your source code repository, it will be ignored.
 
@@ -32,6 +33,8 @@
 
 
 ### [Build using buildpacks](without_dockerfile/sb_build_image/README.md)
+
+### [Build a layered jar](with_dockerfile/sb_build_app_and_image/README.md)
 
 ### [Build both SpringBoot application and Docker image via Docker](with_dockerfile/sb_build_app_and_image/README.md)
 
