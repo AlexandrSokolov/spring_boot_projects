@@ -1,3 +1,6 @@
+### Demo of building Spring Boot application via Docker without Maven installed and its packaging to image
+
+
 ### Build image:
 
 ```bash
