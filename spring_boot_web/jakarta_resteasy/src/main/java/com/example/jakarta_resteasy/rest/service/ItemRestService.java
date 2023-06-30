@@ -4,7 +4,6 @@ package com.example.jakarta_resteasy.rest.service;
 import com.example.jakarta_resteasy.api.Item;
 import com.example.jakarta_resteasy.api.ItemRestApi;
 import com.example.jakarta_resteasy.service.ItemService;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.ws.rs.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
