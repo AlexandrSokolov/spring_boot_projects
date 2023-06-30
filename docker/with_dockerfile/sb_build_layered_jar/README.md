@@ -95,7 +95,7 @@ application
       sb_demo/sb_build_layered_jar   1.0.0     72840633e994   6 seconds ago   145MB
       ```
 
-* With maven `dockerfile-maven-plugin` from Spotify: `$ mvn dockerfile:build`
+* With maven [`dockerfile-maven-plugin`](pom.xml) from Spotify: `$ mvn dockerfile:build`, 
 
   Notes: 
     * docker repository and the tag (package version) are taken from the maven configuration
