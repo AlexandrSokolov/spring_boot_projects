@@ -13,12 +13,12 @@
         class="com.example.di.xml.app.service.ServiceByFactoryMethod"
         factory-method="instance"/>
 
-  <bean id="constructorDi" class="com.example.di.xml.app.di.ConstructorDi">
+  <bean class="com.example.di.xml.app.di.ConstructorDi">
     <constructor-arg ref="serviceByConstructor"/>
     <constructor-arg ref="serviceByFactoryMethod"/>
   </bean>
 
-  <bean id="setterDi" class="com.example.di.xml.app.di.SetterDi">
+  <bean class="com.example.di.xml.app.di.SetterDi">
     <property name="serviceApi1SomeName" ref="serviceByConstructor"/>
     <property name="serviceApi2SomeOtherName" ref="serviceByFactoryMethod"/>
   </bean>
