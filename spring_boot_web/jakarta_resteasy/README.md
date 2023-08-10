@@ -1,10 +1,18 @@
+### Description
+
+* [Add Jakarta API with Resteasy](#add-jakarta-api-with-resteasy)
+* [Add Actuator (health checks)](#add-actuator-health-checks)
+* [Run the app and send request for testing](#run-the-app-and-send-request-for-testing)
+
+### Run the app and send request for testing
+
 Start project as:
 
 ```bash
 $ mvn spring-boot:run
 ```
 
-Send rest requests to test it:
+Send rest requests via cmd to test the app:
 ```bash
 curl -i -X GET -w "\n" http://localhost:8080/rest/items/1
 curl -i -X GET -w "\n" http://localhost:8080/rest/items/echo/someMessage
@@ -66,3 +74,19 @@ Add rest api module:
 
 Implement rest service:
 * [Rest service](src/main/java/com/example/jakarta_resteasy/rest/service/ItemRestService.java)
+
+### Add Actuator (health checks)
+
+```xml
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+```
+
+Actuator calls:
+```bash
+curl -i -X GET -w "\n" http://localhost:8080/actuator/health
+
+```

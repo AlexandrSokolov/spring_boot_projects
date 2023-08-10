@@ -1,3 +1,5 @@
+### Create README, similar to README from jakarta_resteasy
+
 ### Use service to check injection
 
 ### Use DTO, to check it is serialized

@@ -1,4 +1,8 @@
-### Describe in todo validator
+### Add FAQ for intervieew on Spring Boot Web
+
+### more details on actuator
+
+### Describe in readme validator
 
 ### All get requests with curl command for check
 
