@@ -1,5 +1,7 @@
 ### Add FAQ for intervieew on Spring Boot Web
 
+### Authentication and accessing to request context. Issue with async processing
+
 ### more details on actuator
 
 ### Describe in readme validator
