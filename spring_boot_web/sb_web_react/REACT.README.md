@@ -1,10 +1,10 @@
 * [Update/or install `nvm`, `node`, `npm`](#updateor-install-nvm-node-npm)
-* [Generate React project]()
-* [Maven configuration for Spring Boot Web application with React]()
+* [Generate React project](#generate-react-project)
+* [Maven configuration for Spring Boot Web application with React](#maven-configuration-for-spring-boot-web-application-with-react)
 
 ### Update/or install `nvm`, `node`, `npm`
 
-ä##### `nvm` - [node version manager](https://github.com/nvm-sh/nvm)
+##### `nvm` - [node version manager](https://github.com/nvm-sh/nvm)
 
 * Find the currently available versions: [Releases](https://github.com/nvm-sh/nvm/releases)
 * Install or update, for instance for `v0.39.2` version:
