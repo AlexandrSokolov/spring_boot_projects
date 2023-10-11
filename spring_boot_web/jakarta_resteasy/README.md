@@ -64,6 +64,14 @@ In `pom.xml`:
 
 Add rest configurations:
 * [Rest app config](src/main/java/com/example/jakarta_resteasy/rest/config/JakartaWsConfiguration.java)
+* Register `JakartaWsConfiguration` rest app config file in `application.yaml` as:
+  ```yaml
+  resteasy:
+    jaxrs:
+      app:
+        registration: property
+        classes: com.example.jakarta_resteasy.rest.config.JakartaWsConfiguration
+  ```
 * [Custom jackson mapper](src/main/java/com/example/jakarta_resteasy/rest/config/CustomJacksonMapperProvider.java)
 * [Exception mapper](src/main/java/com/example/jakarta_resteasy/rest/config/NotFoundExceptionMapper.java)
 * [Validation exception mapper](src/main/java/com/example/jakarta_resteasy/rest/config/ViolationValidationExceptionMapper.java)
