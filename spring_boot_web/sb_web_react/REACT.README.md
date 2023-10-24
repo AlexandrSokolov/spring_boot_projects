@@ -143,6 +143,11 @@ npx check-node-version --print
 * [Add `frontend-maven-plugin` and `maven-resources-plugin` into `pom.xml`](pom.xml)
 * Split frontend building and the whole project building to speed-up dev process.
 
+  **Note:** the following solution with changing default maven phases 
+  from `process-sources`, `prepare-package` into `install` works only if you do not have files in `resources` folder.
+  If you have such files then the frontend code 
+  is not copied into `target/classes/static` folder (`/BOOT-INF/classes/static/` in the jar archive).
+
   To build react project, it takes time. Quite often you change only backend, without touching frontend.
   To achieve it, you can configure `frontend-maven-plugin` to be executed during `install` Maven phase.
  
