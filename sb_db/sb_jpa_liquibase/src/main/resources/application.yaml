@@ -1,0 +1,21 @@
+resteasy:
+  jaxrs:
+    app:
+      registration: property
+      classes: com.example.jpa.liquibase.rest.config.RestAppConfiguration
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - shutdown
+  endpoint:
+    shutdown:
+      enabled: true
+logging:
+  level:
+    org:
+      springframework: info
+      jboss:
+        resteasy: info

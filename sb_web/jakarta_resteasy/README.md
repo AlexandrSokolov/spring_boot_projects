@@ -1,3 +1,9 @@
+Spring Boot Web App based on Jakarta/Jax Rs (implementation from RESTEasy)
+
+### Documentation
+
+* [RESTEasy Spring Boot Starter](https://github.com/resteasy/resteasy-spring-boot)
+
 ### Description
 
 * [Add Jakarta API with Resteasy](#add-jakarta-api-with-resteasy)
@@ -16,7 +22,7 @@ Send rest requests via cmd to test the app:
 ```bash
 curl -i -X GET -w "\n" http://localhost:8080/rest/items/1
 curl -i -X GET -w "\n" http://localhost:8080/rest/items/echo/someMessage
-curl -i -X GET -w "\n" http://localhost:8080/rest/items/items
+curl -i -X GET -w "\n" http://localhost:8080/rest/items
 curl -i -X PUT -w "\n" -H 'Content-Type: text/plain' -d 'new item' http://localhost:8080/rest/items
 ```
 

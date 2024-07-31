@@ -4,11 +4,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.example</groupId>
-  <artifactId>jakarta_resteasy</artifactId>
+  <artifactId>jpa-liquibase</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 
-  <name>sb-jakarta-resteasy</name>
-  <description>Jakarta Resteasy with Spring Boot</description>
+  <name>sb-jpa-liquibase</name>
+  <description>Spring Boot Jakarta with Jpa and Liquibase integration</description>
 
   <properties>
     <jakarta.ws.rs-api.version>3.1.0</jakarta.ws.rs-api.version>
