@@ -1,9 +1,8 @@
 package com.example.jpa.liquibase.api;
 
-
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -12,23 +11,22 @@ import jakarta.ws.rs.core.MediaType;
 
 import java.util.List;
 
-@Path(ItemRestApi.ECHO_PATH)
+@Path(ItemRestApi.ITEMS_PATH)
 @Produces({MediaType.APPLICATION_JSON})
+@Consumes({MediaType.APPLICATION_JSON})
 public interface ItemRestApi {
-  String ECHO_PATH = "/items";
+  String ITEMS_PATH = "/items";
 
   @GET
   @Path("{id : \\d+}") //support digit only
   Item byId(@PathParam("id") Integer id);
 
   @GET
-  @Path("/echo/{message}")
-  Item echo(@PathParam("message") String message);
-
-  @GET
   List<Item> items();
 
+  @POST
+  Item create(Item newItem);
+
   @PUT
-  @Consumes({MediaType.TEXT_PLAIN})
-  Item create(@NotEmpty(message = "Path parameter must not be empty") String echoText);
+  void update(Item item);
 }

@@ -1,9 +1,6 @@
 package com.example.jpa.liquibase.api;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
-public record Item(String name, LocalDateTime dateTime) {
-  public static Item fromName(String name) {
-    return new Item(name, LocalDateTime.now());
-  }
+public record Item(Long id, String name, ZonedDateTime dateTime) {
 }

@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  db:
+    image: mysql
+    container_name: mysql-db
+    networks:
+      - app-net
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=my-test-db
+    ports:
+      - '3306:3306'
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    image: 'jpa-liquibase:latest'
+    build:
+      context: .
+    container_name: app
+    networks:
+      - app-net
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+      - "8787:8787"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/my-test-db?useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8787
+
+networks:
+  app-net:

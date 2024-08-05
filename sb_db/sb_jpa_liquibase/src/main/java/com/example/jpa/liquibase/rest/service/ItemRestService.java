@@ -18,15 +18,7 @@ public class ItemRestService implements ItemRestApi {
 
   @Override
   public Item byId(Integer id) {
-
-    System.out.printf("q");
-
-    return itemService.findById(id).orElseThrow(() -> new NotFoundException("Item by '" + id + "' not found"));
-  }
-
-  @Override
-  public Item echo(String message) {
-    return Item.fromName(message);
+    return itemService.findById(id).orElseThrow(NotFoundException::new);
   }
 
   @Override
@@ -35,8 +27,12 @@ public class ItemRestService implements ItemRestApi {
   }
 
   @Override
-  public Item create(String message) {
-    return itemService.update(message);
+  public Item create(Item newItem) {
+    return itemService.create(newItem);
   }
 
+  @Override
+  public void update(Item item) {
+    itemService.update(item);
+  }
 }

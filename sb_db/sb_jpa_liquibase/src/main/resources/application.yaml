@@ -1,3 +1,11 @@
+spring:
+  jpa:
+    properties:
+      javax:
+        persistence:
+          # fdsfds
+          sharedCache:
+            mode: ENABLE_SELECTIVE
 resteasy:
   jaxrs:
     app:
