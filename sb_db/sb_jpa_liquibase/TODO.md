@@ -1,3 +1,9 @@
+### integration tests with mysql container and initial dataset
+
+### jpa logging
+
+https://vladmihalcea.com/log-sql-spring-boot/
+
 ### move all properties from persistence.xml into application.yaml with the description
 
 https://vladmihalcea.com/spring-boot-application-properties/
