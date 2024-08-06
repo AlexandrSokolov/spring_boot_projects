@@ -128,35 +128,6 @@ We must define `spring-boot-dependencies` bom and configure main class in `sprin
 Otherwise you'll get the error:
 > no main manifest attribute, in application.jar
 
-2. Remove default integration test
-
-To be able to build the application without specifying db connection, we have to drop or disable:
-
-```java
-@SpringBootTest
-class ApplicationTests {
-
-  @Test
-  void contextLoads() {
-  }
-
-}
-```
-
-Notes:
-
-we can disable it in spring configuration:
-```yaml
-spring:
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
-      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-  liquibase:
-    enabled: false
-```
-But then we won't be able to inject/autowire our repository jpa interface. So it does not help to build the project.
-
 ### Schema generation with Liquibase
 
 1. Add `liquibase-core` in `pom.xml`:
