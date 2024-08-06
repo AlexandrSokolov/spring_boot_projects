@@ -1,5 +1,7 @@
 ### integration tests with mysql container and initial dataset
 
+### liquibase actuator
+
 ### jpa logging
 
 https://vladmihalcea.com/log-sql-spring-boot/

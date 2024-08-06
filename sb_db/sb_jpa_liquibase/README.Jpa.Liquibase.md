@@ -78,7 +78,7 @@ This project extends functionalities of:
 
 ### Initial project adoptions
 
-Without using `spring-boot-starter-parent`:
+1. Without using `spring-boot-starter-parent`:
 
 ```xml
   <parent>
@@ -127,6 +127,15 @@ We must define `spring-boot-dependencies` bom and configure main class in `sprin
 
 Otherwise you'll get the error:
 > no main manifest attribute, in application.jar
+
+2. `ApplicationTests` package
+
+When you rename/move packages, make sure that [`ApplicationTests`](src/test/java/com/example/jpa/liquibase/ApplicationTests.java) 
+test that is triggered with `mvn clean package` and runs Spring Boot is located in the same package as 
+[`Application`](src/main/java/com/example/jpa/liquibase/Application.java).
+
+Otherwise you'll get the error:
+> Unable to find a @SpringBootConfiguration, you need to use @ContextConfiguration or @SpringBootTest(classes=...) with your test
 
 ### Schema generation with Liquibase
 
