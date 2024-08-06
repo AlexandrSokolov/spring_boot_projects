@@ -1,15 +1,22 @@
+* [Running application](#running-application)
+* [Test functionality](#to-test-functionality)
+* [Description](#description)
+* [Documentation](#documentation)
+* [Steps to integrate Spring Boot with Spring Data Jpa and Liquibase](#steps-to-integrate-spring-boot-with-spring-data-jpa-and-liquibase)
+* [TODO Unit and integration tests](#unit-and-integration-tests)
+
 ### Running application:
 
 You cannot run it via `mvn spring-boot:run`. You'll get an exception:
 > Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured.
 
-To build and run application rut 1st time it as:
+To build and run application (the 1st execution):
 
 ```bash
 mvn clean install && docker compose up
 ```
 
-To restart the application, that has already been built and run:
+To clear and restart the application, that has already been built and run:
 ```bash
 ./clearAndStart.sh
 ```
@@ -17,6 +24,11 @@ To restart the application, that has already been built and run:
 To drop containers together with mysql **volumes** and the app docker image:
 ```bash
 docker rm $(docker ps -aq) && docker volume rm $(docker volume ls -q) && docker image rm jpa-liquibase:latest
+```
+
+To connect to the running mysql container (with `root` password):
+```bash
+$ mysql -h localhost -P 3306 --protocol=tcp -u root -p
 ```
 
 ### To test functionality:
@@ -66,7 +78,7 @@ This project extends functionalities of:
 
 ### Initial project adoptions
 
-1. Without using `spring-boot-starter-parent`:
+Without using `spring-boot-starter-parent`:
 
 ```xml
   <parent>
@@ -196,16 +208,9 @@ This adds dependencies on:
 
 2. Configure database properties, that affect optimisations, but not connection itself
 
-**Note #1:** 
-We include into the project configuration only database properties, that affect optimisations
-
-* change default transaction type (if needed)
-* the mode of your 2nd level cache
-* provider-specific configuration parameters (if needed)
-
 We can use:
-* (preferrably) either [Spring configuration file](src/main/resources/application.yaml)
-* or [`persistence.xml`](src/main/resources/META-INF/persistence.xml)
+* (preferably) either [Spring configuration file](src/main/resources/application.yaml)
+* or (not recommeded - additional complexity) [`persistence.xml`](src/main/resources/META-INF/persistence.xml)
 
 [Use a Traditional persistence.xml File](https://docs.spring.io/spring-boot/how-to/data-access.html#howto.data-access.use-traditional-persistence-xml)
 
@@ -217,6 +222,13 @@ We can use:
 So using `persistence.xml` makes the entire configuration more complicated.
 
 **The same properties might have different names in those files**
+
+**Note #1:**
+We include into the project configuration only database properties, that affect optimisations
+
+* change default transaction type (if needed)
+* the mode of your 2nd level cache
+* provider-specific configuration parameters (if needed)
 
 **Note #2:**
 
@@ -246,6 +258,16 @@ Exception: integration tests.
 
 ### Docker composition with mysql and database connection
 
+We **do not configure database connection** in the Spring's main `application.yaml`.
+Having such configuration in the file makes it built-time specific.
+You must be able to change the configuration at run time, 
+make them different for different environments without application rebuild.
+Additionally such configuration is ITO, but not dev team responsibility.
+
+We **do configure database connection** in the Spring's test `application.yaml`.
+The purpose is to be able to run [`ApplicationTests`](src/test/java/com/example/jpa/liquibase/ApplicationTests.java) 
+to check all injection/autowired points.
+
 1. Add [`Dockerfile`](Dockerfile) file.
 2. Add [Docker compose](docker-compose.yaml) file. Configure `db` and pass its params to the `app` containers.
 3. Add in [Docker compose](docker-compose.yaml) support for debugging by passing: `- JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8787`
@@ -254,3 +276,7 @@ Exception: integration tests.
     * drop the app docker image
     * rebuild the project with maven and
     * start `db` and `app` containers via docker composition 
+
+### Unit and integration tests
+
+TODO

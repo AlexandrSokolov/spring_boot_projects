@@ -1,10 +1,11 @@
 spring:
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
-      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-  liquibase:
-    enabled: false
+  jpa:
+    show-sql: true
+  datasource:
+    url: jdbc:hsqldb:mem:myDb
+    username: sa
+    password: sa
+    driverClassName: org.hsqldb.jdbc.JDBCDriver
 
 logging:
   level:
