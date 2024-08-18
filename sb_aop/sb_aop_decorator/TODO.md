@@ -1,0 +1,1 @@
+[Jakarta decorators support in Spring Boot](https://stackoverflow.com/questions/78884123/jakarta-decorators-support-in-spring-boot)
