@@ -1,3 +1,14 @@
+### TODO (check and update both library and the consumer:
+
+It looks as it is not required to use `@Import(AnnotationLibraryConfiguration.class)`
+It is enouph just to scan packages of the library:
+```java
+@Configuration
+@ComponentScan("com.brandmaker.cs.commons.mp")
+public class BmDiConfiguration {
+}
+```
+
 ### Requirement: 
 
 The application uses the library. The library is not part of this Maven project.
