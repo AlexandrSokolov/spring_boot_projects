@@ -1,5 +1,10 @@
 ### spring boot log4j2
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+private static final Logger logger = LogManager.getLogger(SoapLoggingHandler.class.getName());
+
 ```xml
     <dependency>
       <groupId>org.springframework.boot</groupId>
