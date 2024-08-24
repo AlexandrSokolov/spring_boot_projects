@@ -6,6 +6,8 @@
 
 ### [Adding `spring-boot` dependencies, opitons](docs/dependency.on.spring.md)
 
+### [Adding `log4j2` api support](docs/sb.logging.md)
+
 ### [Spring Boot with Docker integration](docker/README.docker.md)
 
 ### Spring Boot Web (Rest) Application based on
