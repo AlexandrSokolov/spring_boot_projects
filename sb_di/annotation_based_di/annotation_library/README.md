@@ -18,6 +18,28 @@ You do not need to configure:
 
 The only `spring-starter` - is `spring-boot-starter-test`
 
+If you use log4j2 dependency on the project, exclude `spring-boot-starter-logging` from `spring-boot-starter-test`:
+```xml
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-log4j2</artifactId>
+    </dependency>
+  
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+  </dependencies>
+```
+
 [See `pom.xml`](pom.xml) 
 
 ### Library DI configuration
