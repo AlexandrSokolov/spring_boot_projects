@@ -4,6 +4,7 @@
 #### [Spring Boot](https://docs.spring.io/spring-boot/index.html)
 #### [Spring Framework Documentation](https://docs.spring.io/spring-framework/reference/index.html)
 
+### [Adding `spring-boot` dependencies, opitons](docs/dependency.on.spring.md)
 
 ### [Spring Boot with Docker integration](docker/README.docker.md)
 
