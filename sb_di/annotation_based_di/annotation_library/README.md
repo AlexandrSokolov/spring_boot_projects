@@ -1,18 +1,44 @@
-### Library with POJOs
+- [Define library dependencies in `pom.xml`](#spring-dependencies-in-pomxml-of-the-library)
+- [Explicitly document the library DI configuration](#library-di-configuration)
+- [Provided maven dependencies on the library](#library-maven-dependencies)
 
-The library defines api interfaces, the implementations and different services that inject dependencies via Spring annotations.
-Container configuration is provided by the library via [`AnnotationLibraryConfiguration`](src/main/java/com/example/di/ann/lib/AnnotationLibraryConfiguration.java)
-The client  of the library imports this `AnnotationLibraryConfiguration` configuration as:
+- [Library's consumer/client](../annotation_application/README.md))
+
+- [Library description](#library-with-pojos)
+
+### Spring dependencies in `pom.xml` of the library
+
+You do not need to configure:
+- `spring-boot-starter` for the library they are not needed is defined.
+- `spring-boot-maven-plugin`, otherwise you get:
+  > Execution repackage of goal org.springframework.boot:spring-boot-maven-plugin:3.3.3:repackage failed: 
+  > Unable to find main class
+
+  We do not need the main class for the library
+
+The only `spring-starter` - is `spring-boot-starter-test`
+
+[See `pom.xml`](pom.xml) 
+
+### Library DI configuration
+
+Configuration is defined in [`AnnotationLibraryConfiguration`](src/main/java/com/example/di/ann/lib/AnnotationLibraryConfiguration.java):
 ```java
 @Configuration
-@ComponentScan("com.example.di.ann.app")
+@ComponentScan("com.example.lib")
+public class AnnotationLibraryConfiguration {}
+```
+
+The consumer of the library must include in its configuration:
+```java
+@Configuration
+@ComponentScan("com.example.consumer")
 @Import(AnnotationLibraryConfiguration.class) //import the library IoC  container configuration
 public class AppContainerConfiguration {
 }
 ```
 
-### Dependency to the library is defined in `pom.xml` as:
-
+### Library maven dependencies:
 ```xml
     <dependency>
       <groupId>com.example.lib.di.annotation</groupId>
@@ -21,6 +47,9 @@ public class AppContainerConfiguration {
     </dependency>
 ```
 
+### Library with POJOs
 
-
-*** [Configure IoC container of the application to use this library](../annotation_application/README.md#configure-ioc-container-with-plain-java-library)
+The library defines
+- api interfaces, 
+- the implementations and 
+- different services that inject dependencies via Spring annotations
