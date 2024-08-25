@@ -28,5 +28,5 @@
   import org.apache.logging.log4j.LogManager;
   import org.apache.logging.log4j.Logger;
   
-  private static final Logger logger = LogManager.getLogger(My.Class.class.getName());
+  private static final Logger logger = LogManager.getLogger(MyClass.class.getName());
   ```

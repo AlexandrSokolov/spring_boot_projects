@@ -8,6 +8,8 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.Context;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -16,6 +18,8 @@ import java.util.List;
 
 @Component
 public class ItemRestService implements ItemRestApi {
+
+  private static final Logger logger = LogManager.getLogger(ItemRestService.class.getName());
 
   @Autowired
   ItemService itemService;
@@ -53,7 +57,7 @@ public class ItemRestService implements ItemRestApi {
   @Override
   public Item byId(Integer id) {
 
-    System.out.printf("q");
+    logger.debug(() -> "rest call - get item by id = " + id);
 
     return itemService.findById(id).orElseThrow(() -> new NotFoundException("Item by '" + id + "' not found"));
   }

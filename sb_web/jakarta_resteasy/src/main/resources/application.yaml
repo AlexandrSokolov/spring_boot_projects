@@ -15,6 +15,11 @@ management:
       enabled: true
 logging:
   level:
+    com:
+      example:
+        jakarta_resteasy:
+          rest:
+            service: debug
     org:
       springframework: info
       jboss:
