@@ -6,7 +6,10 @@ Spring Boot Web App based on Jakarta/Jax Rs (implementation from RESTEasy)
 
 ### Description
 
-* [Add Jakarta API with Resteasy](#add-jakarta-api-with-resteasy)
+* [Add Jakarta API with Resteasy Project Depenencies](#jakarta-api-with-resteasy-project-dependencies)
+* [Add Spring Boot Starter with Jakarta Resteasy App](#spring-boot-starter-with-jakarta-resteasy-app)
+* [Add Optional Jakarta Configuration](#optional-jakarta-configuration)
+* [Add Rest Api and Service](#rest-api-and-service)
 * [Add Actuator (health checks)](#add-actuator-health-checks)
 * [Run the app and send request for testing](#run-the-app-and-send-request-for-testing)
 
@@ -42,35 +45,14 @@ curl -i -X GET -w "\n" http://localhost:8080/actuator/health
 
 ```
 
-### Add Jakarta API with Resteasy
+### [Jakarta API with Resteasy project dependencies](pom.xml)
 
-In `pom.xml`:
+### Spring Boot Starter with Jakarta Resteasy App
 
-```xml
-  <dependencies>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/jakarta.ws.rs/jakarta.ws.rs-api -->
-    <dependency>
-      <groupId>jakarta.ws.rs</groupId>
-      <artifactId>jakarta.ws.rs-api</artifactId>
-      <version>${jakarta.ws.rs-api.version}</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-servlet-spring-boot-starter -->
-    <dependency>
-      <groupId>org.jboss.resteasy</groupId>
-      <artifactId>resteasy-servlet-spring-boot-starter</artifactId>
-      <version>${resteasy-servlet-spring-boot-starter.version}</version>
-      <scope>runtime</scope>
-    </dependency>
-  </dependencies>
-```
-
-Add rest configurations:
-* [Rest app config](src/main/java/com/example/jakarta_resteasy/rest/config/JakartaWsConfiguration.java)
-* Register `JakartaWsConfiguration` rest app config file in `application.yaml` as:
+* [Add Spring Boot Starter](src/main/java/com/example/jakarta_resteasy/Application.java)
+* [Add Spring Boot Test](src/test/java/com/example/jakarta_resteasy/JakartaResteasyApplicationTests.java)
+* [Add Rest app config](src/main/java/com/example/jakarta_resteasy/rest/config/JakartaWsConfiguration.java)
+* Register `JakartaWsConfiguration` (update package path!) rest app config file in `application.yaml` as:
   ```yaml
   resteasy:
     jaxrs:
@@ -78,9 +60,15 @@ Add rest configurations:
         registration: property
         classes: com.example.jakarta_resteasy.rest.config.JakartaWsConfiguration
   ```
+
+### Optional Jakarta Configuration
+
 * [Custom jackson mapper](src/main/java/com/example/jakarta_resteasy/rest/config/CustomJacksonMapperProvider.java)
 * [Exception mapper](src/main/java/com/example/jakarta_resteasy/rest/config/NotFoundExceptionMapper.java)
 * [Validation exception mapper](src/main/java/com/example/jakarta_resteasy/rest/config/ViolationValidationExceptionMapper.java)
+* [Custom header response filter](src/main/java/com/example/jakarta_resteasy/rest/config/PingPongHeaderContainerResponseFilter.java)
+
+### Rest Api and Service
 
 Add rest api module:
 * [DTO](src/main/java/com/example/jakarta_resteasy/api/Item.java)
@@ -89,7 +77,7 @@ Add rest api module:
 Implement rest service:
 * [Rest service](src/main/java/com/example/jakarta_resteasy/rest/service/ItemRestService.java)
 
-### Add Actuator (health checks)
+### Actuator (health checks)
 
 ```xml
     <dependency>
