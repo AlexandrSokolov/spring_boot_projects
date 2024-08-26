@@ -3,6 +3,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <parent>
+    <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-parent -->
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.3.3</version>
+    <relativePath/> <!-- lookup parent from repository -->
+  </parent>
+
   <groupId>com.example</groupId>
   <artifactId>jpa-liquibase</artifactId>
   <version>1.0.0</version>
@@ -17,26 +25,19 @@
 
     <jakarta.ws.rs-api.version>3.1.0</jakarta.ws.rs-api.version>
     <resteasy-servlet-spring-boot-starter.version>6.0.2.Final</resteasy-servlet-spring-boot-starter.version>
-    <resteasy-validator-provider.version>6.2.4.Final</resteasy-validator-provider.version>
+    <resteasy.version>6.2.10.Final</resteasy.version>
 
-    <spring.boot.version>3.3.2</spring.boot.version>
     <java.version>21</java.version>
-
-    <maven.compiler.source>${java.version}</maven.compiler.source>
-    <maven.compiler.target>${java.version}</maven.compiler.target>
-
-    <resource.delimiter>@</resource.delimiter>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
   </properties>
 
   <dependencyManagement>
     <dependencies>
+      <!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-bom -->
       <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-dependencies</artifactId>
-        <version>${spring.boot.version}</version>
+        <groupId>org.jboss.resteasy</groupId>
+        <artifactId>resteasy-bom</artifactId>
+        <version>${resteasy.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -47,7 +48,18 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-logging</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-log4j2</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
@@ -66,6 +78,28 @@
       <artifactId>resteasy-servlet-spring-boot-starter</artifactId>
       <version>${resteasy-servlet-spring-boot-starter.version}</version>
       <scope>runtime</scope>
+      <!-- outdated `resteasy-core` is included into the current last version of `resteasy-servlet-spring-boot-starter`-->
+      <exclusions>
+        <exclusion>
+          <groupId>org.jboss.resteasy</groupId>
+          <artifactId>resteasy-core</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-core-spi -->
+    <dependency>
+      <groupId>org.jboss.resteasy</groupId>
+      <artifactId>resteasy-core-spi</artifactId>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-core -->
+    <dependency>
+      <groupId>org.jboss.resteasy</groupId>
+      <artifactId>resteasy-core</artifactId>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-multipart-provider -->
+    <dependency>
+      <groupId>org.jboss.resteasy</groupId>
+      <artifactId>resteasy-multipart-provider</artifactId>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api -->
@@ -81,7 +115,6 @@
     <dependency>
       <groupId>org.jboss.resteasy</groupId>
       <artifactId>resteasy-validator-provider</artifactId>
-      <version>${resteasy-validator-provider.version}</version>
     </dependency>
 
     <dependency>
