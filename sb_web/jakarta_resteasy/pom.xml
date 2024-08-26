@@ -21,11 +21,24 @@
   <properties>
     <jakarta.ws.rs-api.version>3.1.0</jakarta.ws.rs-api.version>
     <resteasy-servlet-spring-boot-starter.version>6.0.2.Final</resteasy-servlet-spring-boot-starter.version>
-    <resteasy-validator-provider.version>6.2.4.Final</resteasy-validator-provider.version>
+    <resteasy.version>6.2.10.Final</resteasy.version>
 
     <java.version>21</java.version>
 
   </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-bom -->
+      <dependency>
+        <groupId>org.jboss.resteasy</groupId>
+        <artifactId>resteasy-bom</artifactId>
+        <version>${resteasy.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <dependencies>
     <dependency>
@@ -61,6 +74,28 @@
       <artifactId>resteasy-servlet-spring-boot-starter</artifactId>
       <version>${resteasy-servlet-spring-boot-starter.version}</version>
       <scope>runtime</scope>
+      <!-- outdated `resteasy-core` is included into the current last version of `resteasy-servlet-spring-boot-starter`-->
+      <exclusions>
+        <exclusion>
+          <groupId>org.jboss.resteasy</groupId>
+          <artifactId>resteasy-core</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-core-spi -->
+    <dependency>
+      <groupId>org.jboss.resteasy</groupId>
+      <artifactId>resteasy-core-spi</artifactId>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-core -->
+    <dependency>
+      <groupId>org.jboss.resteasy</groupId>
+      <artifactId>resteasy-core</artifactId>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-multipart-provider -->
+    <dependency>
+      <groupId>org.jboss.resteasy</groupId>
+      <artifactId>resteasy-multipart-provider</artifactId>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api -->
@@ -76,7 +111,6 @@
     <dependency>
       <groupId>org.jboss.resteasy</groupId>
       <artifactId>resteasy-validator-provider</artifactId>
-      <version>${resteasy-validator-provider.version}</version>
     </dependency>
 
     <dependency>
