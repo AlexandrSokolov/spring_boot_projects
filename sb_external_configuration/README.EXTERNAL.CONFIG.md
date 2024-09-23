@@ -3,7 +3,7 @@ This DEMO project is based on [`jakarta_resteasy` project](../sb_web/jakarta_res
 
 Start the project:
 ```bash
-export SPRING_CONFIG_IMPORT=file:./src/test/resources/app.external.config.yaml && mvn spring-boot:run
+mvn spring-boot:run -Dspring-boot.run.arguments=--spring.config.import=file:./src/test/resources/app.external.config.yaml
 ```
 
 Get the configuration via request. Send rest requests via cmd to test the app:
@@ -85,18 +85,12 @@ spring:
 ### How to pass the path to the configuration file into the web application when you run it via `mvn spring-boot:run`
 
 ```bash
+mvn spring-boot:run -Dspring-boot.run.arguments=--spring.config.import=file:./src/test/resources/app.external.config.yaml
+```
+or:
+```bash
 export SPRING_CONFIG_IMPORT=file:./src/test/resources/app.external.config.yaml && mvn spring-boot:run
 ```
-
-Note: all the following tries do not work with `mvn spring-boot:run`:
-```bash
-mvn spring-boot:run -Dspring.config.import=file:./src/test/resources/app.external.config.yaml
-mvn spring-boot:run --spring.config.import=file:./src/test/resources/app.external.config.yaml
-mvn spring-boot:run -DSPRING_CONFIG_IMPORT=file:./src/test/resources/app.external.config.yaml
-mvn spring-boot:run -Drun.arguments=--spring.config.import=file:./src/test/resources/app.external.config.yaml
-SPRING_CONFIG_IMPORT=file:./src/test/resources/app.external.config.yaml && mvn spring-boot:run
-```
-
 
 ### How to pass the path to the configuration file into the web application when you run it via docker composition
 
