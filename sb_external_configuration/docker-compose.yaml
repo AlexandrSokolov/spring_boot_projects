@@ -1,0 +1,22 @@
+services:
+  sb-external-config-app:
+    image: 'sb-external-config:latest'
+    build:
+      context: .
+    container_name: sb-external-config-app
+    networks:
+      - app-net
+    volumes:
+      - ./src/test/resources/app.external.config.yaml:/etc/demo/app.external.config.yaml
+    ports:
+      - "8080:8080"
+      - "8787:8787"
+    environment:
+      - SPRING_CONFIG_IMPORT=file:/etc/demo/app.external.config.yaml
+      - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8787
+      - JAVA_TOOL_OPTIONS=
+        -Dserver.servlet.context-path=
+        -DLOGGED_APPLICATION_NAME="SB External Config Demo"
+
+networks:
+  app-net:

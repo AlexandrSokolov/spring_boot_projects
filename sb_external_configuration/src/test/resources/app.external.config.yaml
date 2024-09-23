@@ -1,0 +1,29 @@
+app:
+  systems-auth:
+    system1:
+      host: a.com
+      login: a_login
+      password: b_pass
+    system2:
+      host: b.com
+      login: b_login
+      password: b_pass
+
+  notification:
+    sender:
+      name: Sender Name
+      email: sender@a.com
+    recipients:
+      - a@a.com
+      - b@b.com
+      - c@c.com
+
+  list-item-configurations:
+    - item-name: name1
+      item-value: 134
+    - item-name: name2
+      item-value: 54
+    - item-name: name3
+      item-value: 56
+    - item-name: name4
+      item-value: 76

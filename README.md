@@ -19,6 +19,8 @@
 
 * [Spring Data Jpa with Liquibase](sb_db/sb_jpa_liquibase/README.Jpa.Liquibase.md)
 
+### [Spring Boot external configuration with yaml file](sb_external_configuration/README.EXTERNAL.CONFIG.md)
+
 ### Spring Boot Dependency Injection and Scopes
 
 Spring Library and its consumer - the application
