@@ -16,6 +16,16 @@ public class ItemService {
   @Autowired
   private ItemRepository itemRepository;
 
+  @Autowired
+  private Service2 service2;
+
+  //fake implementation to use explicative repo and service2
+  public Item findByIdOrError(Integer id) {
+    var r1 = service2.findById(id);
+    var r2 = this.findById(id).orElse(null);
+    return r1 == null ? r2 : r1;
+  }
+
   public Optional<Item> findById(Integer id) {
     return itemRepository.findById(id.longValue())
       .map(this::from);

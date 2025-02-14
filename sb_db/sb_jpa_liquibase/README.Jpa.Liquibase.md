@@ -1,14 +1,165 @@
+### Description
+
+This project extends functionalities of:
+* [Spring Boot Web App based on Jakarta](../../sb_web/jakarta_resteasy/README.md)
+* [todo spring docker with docker compose](todo)
+
+### Documentation
+
+* [Database Initialization - Liquibase on Startup](https://docs.spring.io/spring-boot/how-to/data-initialization.html#howto.data-initialization.migration-tool.liquibase)
+* [Using Liquibase with Spring Boot](https://contribute.liquibase.com/extensions-integrations/directory/integration-docs/springboot/)
+* [Running Spring Boot with PostgreSQL in Docker Compose](https://www.baeldung.com/spring-boot-postgresql-docker)
+* [Guide to JPA’s persistence.xml](https://thorben-janssen.com/jpa-persistence-xml/)
+* [JPA and Hibernate query hints](https://thorben-janssen.com/11-jpa-hibernate-query-hints-every-developer-know/)
+
+### Implementation details:
+* [Pass db-connection data to the application.](#pass-db-connection-data-to-the-application-full-picture)
+* [TODO list to pass db configuration.](#pass-db-connection-data-to-the-application-todo-list)
 * [Running application](#running-application)
 * [Test functionality](#to-test-functionality)
-* [Description](#description)
-* [Documentation](#documentation)
 * [Steps to integrate Spring Boot with Spring Data Jpa and Liquibase](#steps-to-integrate-spring-boot-with-spring-data-jpa-and-liquibase)
 * [TODO Unit and integration tests](#unit-and-integration-tests)
 
+### Pass db-connection data to the application. Full picture.
+
+Based on the way how the application gets started we have to keep in mind different things.
+
+The app gets started when we run it via:
+- Spring Boot tests execution, for instance when we build the project with `mvn clean package`
+- the maven plugin: `mvn spring-boot:run`
+- docker composition with an external database docker container or an external db service.
+
+1. Pass db connection to Spring Boot unit tests. `hsqldb` in memory is used.
+
+   When we build application via `mvn clean package`, the `ApplicationTests.java` and other unit tests get triggered.
+
+   `hsqldb` db driver configured with `test` scope in the `pom.xml` is loaded.
+
+   [The `application.yaml` from the test resources](src/test/resources/application.yaml) is used. 
+   This test file **can** contain `hsqldb` db settings. In our case it does not contain any db-connection-settings.
+   But with the db configuration in memory, the right db connection is used based on the dependencies. 
+   You don't need to set anything explicitly.
+  
+   
+2. Pass db connection and a db driver when you run the app via `mvn spring-boot:run` Maven plugin
+
+    By default, if you run `mvn spring-boot:run`. You'll get an exception:
+    > Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured.
+
+    [The `application.yaml` from the main resources](src/main/resources/application.yaml) is used.
+    The file does not contain any db settings.
+    The settings are passed by the ITO team, are not known in advance and get changed regularly.
+
+    If we want to use `hsqldb` memory db, when start via maven, we should:
+
+    - configure  `spring-boot-maven-plugin` plugin to use `hsqldb` db driver. 
+   
+      This driver is configured with `test` scope in the `pom.xml`. 
+      You need to configure `spring-boot-maven-plugin` plugin with `useTestClasspath` property:
+      ```xml
+         <build>
+          <plugins>
+            <plugin>
+              <groupId>org.springframework.boot</groupId>
+              <artifactId>spring-boot-maven-plugin</artifactId>
+              <configuration>
+                <useTestClasspath>true</useTestClasspath>
+                ...
+              </configuration>
+            </plugin>
+          </plugins>
+         </build>
+      ```
+    - The application by default configures a connection string for db in memory. You don't need to specify db settings.
+      But if you still want to set them explicitly in [the `application.yaml` from the test resources](src/test/resources/application.yaml)
+      you could do that. But then you need to pass the file as:
+      ```bash
+      mvn spring-boot:run -Dspring-boot.run.arguments=--spring.config.import=file:./src/test/resources/application.yaml
+      ```
+      
+3. Pass db connection via docker composition
+
+   Set the db connections via the docker compose file:
+   ```yaml
+   services:
+     db:
+       image: mysql
+       container_name: mysql-db
+       environment:
+         - MYSQL_ROOT_PASSWORD=root
+         - MYSQL_DATABASE=my-test-db
+       ports:
+         - '3306:3306'
+   
+     app:
+       
+       environment:
+         - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/my-test-db?useSSL=false&allowPublicKeyRetrieval=true
+         - SPRING_DATASOURCE_USERNAME=root
+         - SPRING_DATASOURCE_PASSWORD=root
+   ```
+
+### Pass db-connection data to the application. TODO list.
+
+1. Add a db driver to the dependencies for prod:
+```xml
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>${mysql-connector-java.version}</version>
+    </dependency>
+```
+2. Add a db driver with a database in the memory to the dependencies for test purpose
+```xml
+    <dependency>
+      <groupId>org.hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <version>${hsqldb.version}</version>
+      <scope>test</scope>
+    </dependency>
+```
+3. Configure `spring-boot-maven-plugin` plugin with `useTestClasspath` property:
+```xml
+   <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <useTestClasspath>true</useTestClasspath>
+          ...
+        </configuration>
+      </plugin>
+    </plugins>
+   </build>
+```
+4. Configure database servie and pass the related db settings to the application in docker compose:
+```yaml
+services:
+  db:
+    image: mysql
+    container_name: mysql-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=my-test-db
+    ports:
+      - '3306:3306'
+
+  app:
+    
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/my-test-db?useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+```
+
 ### Running application:
 
-You cannot run it via `mvn spring-boot:run`. You'll get an exception:
-> Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured.
+We have different options:
+
+#### via `mvn spring-boot:run` with `hsqldb` database in a memory
+
+#### via docker composition and mysql docker container:
 
 To build and run application (the 1st execution):
 
@@ -31,7 +182,7 @@ To connect to the running mysql container (with `root` password):
 $ mysql -h localhost -P 3306 --protocol=tcp -u root -p
 ```
 
-### To test functionality:
+### Test functionality on the running application:
 
 Get all items:
 ```bash
@@ -52,20 +203,6 @@ Find the item by id:
 ```bash
 curl -i -X GET -w "\n" http://localhost:8080/rest/items/1
 ```
-
-### Description
-
-This project extends functionalities of:
-* [Spring Boot Web App based on Jakarta](../../sb_web/jakarta_resteasy/README.md)
-* [todo spring docker with docker compose](todo)
-
-### Documentation
-
-* [Database Initialization - Liquibase on Startup](https://docs.spring.io/spring-boot/how-to/data-initialization.html#howto.data-initialization.migration-tool.liquibase)
-* [Using Liquibase with Spring Boot](https://contribute.liquibase.com/extensions-integrations/directory/integration-docs/springboot/)
-* [Running Spring Boot with PostgreSQL in Docker Compose](https://www.baeldung.com/spring-boot-postgresql-docker)
-* [Guide to JPA’s persistence.xml](https://thorben-janssen.com/jpa-persistence-xml/)
-* [JPA and Hibernate query hints](https://thorben-janssen.com/11-jpa-hibernate-query-hints-every-developer-know/)
 
 ### Steps to integrate Spring Boot with Spring Data Jpa and Liquibase
 
@@ -190,7 +327,7 @@ This adds dependencies on:
 
 We can use:
 * (preferably) either [Spring configuration file](src/main/resources/application.yaml)
-* or (not recommeded - additional complexity) [`persistence.xml`](src/main/resources/META-INF/persistence.xml)
+* or (not recommended - additional complexity) [`persistence.xml`](src/main/resources/META-INF/persistence.xml)
 
 [Use a Traditional persistence.xml File](https://docs.spring.io/spring-boot/how-to/data-access.html#howto.data-access.use-traditional-persistence-xml)
 
@@ -259,4 +396,9 @@ to check all injection/autowired points.
 
 ### Unit and integration tests
 
-TODO
+* We use unit tests with mocking services. 
+  See [`ItemServiceTest.java`](src/test/java/com/example/jpa/liquibase/service/ItemServiceTest.java) 
+  or [`ItemServiceViaBeanConfigTest.java`](src/test/java/com/example/jpa/liquibase/service/ItemServiceViaBeanConfigTest.java)
+* We use [`ItemRepositoryIT.java`](src/test/java/com/example/jpa/liquibase/repository/ItemRepositoryIT.java) 
+  integration test with a real mysql database, run mysql in docker during integration test execution.
+* Unit test to test only the queries of repositories, see [`ItemRepositoryTest.java`](src/test/java/com/example/jpa/liquibase/repository/ItemRepositoryTest.java)

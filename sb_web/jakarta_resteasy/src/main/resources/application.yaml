@@ -19,7 +19,7 @@ logging:
       example:
         jakarta_resteasy:
           rest:
-            service: debug
+            service: info
     org:
       springframework: info
       jboss:

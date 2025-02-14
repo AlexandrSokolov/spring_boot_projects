@@ -30,3 +30,12 @@ databaseChangeLog:
               - column:
                   name: date_time
                   type: datetime
+
+  - changeSet:
+      id: 2
+      author: asokolov
+      dbms: hsqldb
+      changes:
+        - createSequence:
+            sequenceName:  items_seq
+            incrementBy:  50

@@ -1,10 +1,19 @@
-### integration tests with mysql container and initial dataset
+### id field and sequence table for mysql and sequence for hsqldb, see  liquibase changesets
 
+### integration tests with mysql container and initial dataset
+https://vladmihalcea.com/log-sql-spring-boot/
 ### liquibase actuator
 
 ### jpa logging
 
 https://vladmihalcea.com/log-sql-spring-boot/
+
+
+### test annotations:
+https://reflectoring.io/spring-boot-testconfiguration/
+@DataJpaTest
+https://www.baeldung.com/spring-componentscan-filter-type
+https://stackoverflow.com/questions/59740498/how-disable-scanning-configuration-class-in-spring-boot
 
 ### move all properties from persistence.xml into application.yaml with the description
 

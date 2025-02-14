@@ -1,15 +1,21 @@
 spring:
   jpa:
     show-sql: true
-  datasource:
-    url: jdbc:hsqldb:mem:myDb
-    username: sa
-    password: sa
-    driverClassName: org.hsqldb.jdbc.JDBCDriver
 
 logging:
   level:
+    com:
+      zaxxer:
+        # HikariConfig - all database settings, including the db connection string
+        hikari: off
+    liquibase: off
     org:
+      hibernate:
+        SQL: debug
+        type:
+          descriptor:
+            sql:
+              BasicBinder: debug
       springframework: info
       jboss:
         resteasy: info
