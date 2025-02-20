@@ -396,9 +396,21 @@ to check all injection/autowired points.
 
 ### Unit and integration tests
 
-* We use unit tests with mocking services. 
-  See [`ItemServiceTest.java`](src/test/java/com/example/jpa/liquibase/service/ItemServiceTest.java) 
-  or [`ItemServiceViaBeanConfigTest.java`](src/test/java/com/example/jpa/liquibase/service/ItemServiceViaBeanConfigTest.java)
+* We use unit tests with mocking services. Spring Boot is not loaded. Pure unit test and mockito library.
+  See [`ItemServiceTest.java`](src/test/java/com/example/jpa/liquibase/service/ItemServiceTest.java)
+
+  Note: 
+  To support such fields, you must be able to inject mock services. 
+  You need to have either setters, or make fields package private.
+* We use integration tests that do load Spring Boot with mocking from Spring Boot.
+
+  In the complex  project it still takes time to run such tests.
+  A better approach is use pure unit tests with mockito. 
+
+  See [`ItemServiceSbMocksIT.java`](src/test/java/com/example/jpa/liquibase/service/ItemServiceSbMocksIT.java) 
+  or [`ItemServiceViaBeanConfigSbMocksIT.java`](src/test/java/com/example/jpa/liquibase/service/ItemServiceViaBeanConfigSbMocksIT.java)
+
 * We use [`ItemRepositoryIT.java`](src/test/java/com/example/jpa/liquibase/repository/ItemRepositoryIT.java) 
   integration test with a real mysql database, run mysql in docker during integration test execution.
 * Unit test to test only the queries of repositories, see [`ItemRepositoryTest.java`](src/test/java/com/example/jpa/liquibase/repository/ItemRepositoryTest.java)
+  It still takes time to run such tests, better to mark them as integration tests, not unit tests.

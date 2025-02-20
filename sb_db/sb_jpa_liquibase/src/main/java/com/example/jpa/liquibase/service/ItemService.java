@@ -14,10 +14,10 @@ import java.util.Optional;
 public class ItemService {
 
   @Autowired
-  private ItemRepository itemRepository;
+  ItemRepository itemRepository;
 
   @Autowired
-  private Service2 service2;
+  Service2 service2;
 
   //fake implementation to use explicative repo and service2
   public Item findByIdOrError(Integer id) {

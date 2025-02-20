@@ -16,12 +16,12 @@ import org.springframework.context.annotation.Bean;
 import java.time.ZonedDateTime;
 import java.util.List;
 
-import static com.example.jpa.liquibase.service.ItemServiceTest.ITEM_NAME;
+import static com.example.jpa.liquibase.service.ItemServiceSbMocksIT.ITEM_NAME;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
 
 @SpringBootTest
-public class ItemServiceViaBeanConfigTest {
+public class ItemServiceViaBeanConfigSbMocksIT {
 
   @TestConfiguration
   public static class TestItemServiceConfig {

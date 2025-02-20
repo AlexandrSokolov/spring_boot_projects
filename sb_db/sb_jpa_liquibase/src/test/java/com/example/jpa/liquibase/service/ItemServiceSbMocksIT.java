@@ -6,55 +6,49 @@ import com.example.jpa.liquibase.repository.ItemRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.io.InputStream;
 import java.time.ZonedDateTime;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 
-public class ItemServiceTest {
+@SpringBootTest
+public class ItemServiceSbMocksIT {
 
   public static final String ITEM_NAME = "test name 758";
 
-  private ItemService itemService = new ItemService();
+  @Autowired
+  private ItemService itemService;
 
-  private ItemRepository itemRepository = mock(ItemRepository.class);
+  @MockBean
+  private ItemRepository itemRepository;
 
-  private Service2 service2 = mock(Service2.class);
+  @MockBean
+  private Service2 service2;
 
   @BeforeEach
   public void init() {
-    itemService.itemRepository = itemRepository;
-    itemService.service2 = service2;
-
-    Mockito.doReturn(List.of(
+    given(this.itemRepository.findAll()).willReturn(List.of(
       itemEntity(),
       itemEntity(),
-      itemEntity()))
-      .when(this.itemRepository).findAll();
+      itemEntity()));
 
-    Mockito.doReturn(item()).when(service2).findById(anyInt());
+    given(this.service2.findById(anyInt())).willReturn(item());
   }
 
   @Test
   public void testFindByIdOrError() {
     Assertions.assertEquals(ITEM_NAME, itemService.findByIdOrError(1).name());
-    Mockito.verify(service2, times(1)).findById(anyInt());
   }
 
   @Test
   public void testFindAll() {
     var result = itemService.items();
     Assertions.assertEquals(3, result.size());
-    Mockito.verify(itemRepository, times(1)).findAll();
   }
 
 
