@@ -1,11 +1,17 @@
-## Layered jars.
+## Layered images created via `Dockerfile`
 
-* [Motivation](#motivation-to-have-layered-jar)
-* [Creation of layered jar](#creation-of-layered-jars)
-* [Docker specific commands](#docker-specific-commands)
+* Docker layered image is created with `Dockerfile`.
+* You set the parent image.
+* You can reuse a Dockerfile and keep everything under your control.
+
+* [Layered jars, idea](#layered-jars-idea)
+* [Creation of layered image](#creation-of-layered-image)
+* [How a layered image gets created, in details](#how-a-layered-image-gets-created)
+* [Docker specific commands to build and run](#docker-commands)
+* [Test the application](#test-the-application)
 * [Spring Boot Docker official guide](https://spring.io/guides/topicals/spring-boot-docker/)
 
-### Motivation to have layered jar
+### Layered jars, idea
 
 An application code is likely what changes most frequently, so it gets its own layer. 
 Further, each layer can evolve on its own, and only when a layer has changed will it be rebuilt for the Docker image.
@@ -46,26 +52,32 @@ Layered jars structure from `layers.idx`:
   - "META-INF/"
 ```
 
-### Creation of layered jars
+### Creation of layered image
 
-Configure `spring-boot-maven-plugin`:
-```xml
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-        <configuration>
-          <layers>
-            <enabled>true</enabled>
-          </layers>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-```
+See [`Dockerfile`](Dockerfile)
 
-#### To examine the layers of any layered jar manually:
+1. Build the app code with `mvn clean package`
+2. Extract the app layers into the folders on `builder` image:
+    ```Dockerfile
+    FROM bellsoft/liberica-openjdk-alpine:17 as builder
+    ARG JAR_FILE=target/*.jar
+    COPY ${JAR_FILE} application.jar
+    RUN java -Djarmode=layertools -jar application.jar extract
+    ```
+3. Create a image layer per each extracted layer:
+    ```Dockerfile
+    #Each COPY directive results in a new layer in the final Docker image.
+    COPY --from=builder dependencies/ ./
+    COPY --from=builder snapshot-dependencies/ ./
+    COPY --from=builder spring-boot-loader/ ./
+    COPY --from=builder application/ ./
+    ```
+
+### How a layered image gets created
+
+#### Build the application: `mvn clean package`
+
+#### Examine the layers of the app jar manually:
 
 ```bash
 $ java -Djarmode=layertools -jar target/sb-build-layered-jar-1.0.0.jar list
@@ -74,39 +86,17 @@ spring-boot-loader
 snapshot-dependencies
 application
 ```
-
-#### To extract layers (this command is used in [Dockerfile](Dockerfile)): 
+#### To see the content of these folders, extract layers (this command is used in [Dockerfile](Dockerfile)): 
 
 `java -Djarmode=layertools -jar target/sb-build-layered-jar-1.0.0.jar extract`
 
-#### [Creating the Docker Image](Dockerfile)
-
-### Docker specific commands
+### Docker commands
 
 #### Build image:
-* With docker cmd: `$ docker build -t sb_demo/sb_build_layered_jar:1.0.0 .
-
-    Notes: 
-    * you are responsible for setting docker repository and tag
-    * only your image is generated, the base image is not downloaded:
-      ```bash
-      $ docker image ls
-      REPOSITORY                     TAG       IMAGE ID       CREATED         SIZE
-      sb_demo/sb_build_layered_jar   1.0.0     72840633e994   6 seconds ago   145MB
-      ```
-
-* With maven [`dockerfile-maven-plugin`](pom.xml) from Spotify: `$ mvn dockerfile:build`, 
-
-  Notes: 
-    * docker repository and the tag (package version) are taken from the maven configuration
-    * the base image (`bellsoft/liberica-openjdk-alpine` in our case) is downloaded and is stored locally:
-      ```bash
-      $ docker image ls
-      REPOSITORY                         TAG       IMAGE ID       CREATED          SIZE
-      sb_demo/sb-build-layered-jar       1.0.0     414728b3ef36   19 seconds ago   145MB
-      bellsoft/liberica-openjdk-alpine   17        60522fc45417   5 weeks ago      126MB
-      ```
-    * there is some bug with the maven plugin, the 3rd image is produced with no tag.
+ 
+```bash
+docker build -t sb_demo/sb_build_layered_jar:1.0.0 .
+```
 
 #### To publish docker image:
 * With docker: `$ docker push NAME[:TAG]`
@@ -114,11 +104,14 @@ application
 
 #### Analyze the image:
 
+With `dive` running as a docker container:
 ```bash
 $ docker run --rm -it  \
     -v /var/run/docker.sock:/var/run/docker.sock  wagoodman/dive:latest  \
     sb_demo/sb_build_layered_jar:1.0.0
 ```
+
+With: `docker history sb_demo/sb_build_layered_jar:1.0.0`
 
 #### Run container:
 
@@ -136,8 +129,12 @@ Pass command line arguments, like `--server.port`:
 $ docker run -p 8080:9000 -e "JAVA_OPTS=-Xmx128m" sb_demo/sb_build_layered_jar:1.0.0 --server.port=9000
 ```
 
-#### Send request (server is on port 9090, locally it is exposed to 8080):
+###  Test the application
 
+The server is running on port 9090 (if run with `--server.port=9000`), 
+but it is exposed locally to `8080` via `-p 8080:9000`:
+
+Send a GET request:
 ```bash
 $ curl -i -X GET -w "\n" http://localhost:8080/rest
 ````
