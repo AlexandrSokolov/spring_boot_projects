@@ -12,12 +12,40 @@ curl -i -X GET -w "\n" http://localhost:8080/rest/config
 ```
 
 ## External configuration issues and solutions:
+* [Pass the configuration properties](#pass-the-configuration-properties)
 * [Define configuration types structure](#define-configuration-types-structure)
 * [Create the configuration file](#create-appexternalconfigyaml-configuration-file)
 * [Pass the configuration file for tests](#import-the-configuration-file-into-tests)
 * [Pass the configuration, when run via maven](#how-to-pass-the-path-to-the-configuration-file-into-the-web-application-when-you-run-it-via-mvn-spring-bootrun)
 * [Pass the configuration, when run via docker compose](#how-to-pass-the-path-to-the-configuration-file-into-the-web-application-when-you-run-it-via-docker-composition)
 
+### Pass the configuration properties
+
+1. Via environment variables
+   ```bash
+   export LOGGING_LEVEL_COM_EXAMPLE_SB_LOG4J2=DEBUG && java -jar target/sb-log4j2-1.0.0.jar
+   ```
+   or when you run via `mvn spring-boot:run`:
+   ```bash
+   export LOGGING_LEVEL_COM_EXAMPLE_SB_LOG4J2=DEBUG && mvn spring-boot:run
+   ```
+2. Via system properties
+   ```bash
+   java -Dlogging.level.com.example.sb.log4j2=debug -jar target/sb-log4j2-1.0.0.jar
+   ```
+   or when you run via `mvn spring-boot:run`:
+   ```bash
+   mvn spring-boot:run -Dspring-boot.run.jvmArguments="-Dlogging.level.com.example.sb.log4j2=debug"
+   ```
+3. Via command line arguments:
+   ```bash
+   java -jar target/sb-log4j2-1.0.0.jar --logging.level.com.example.sb.log4j2=debug
+   ```
+   or when you run via `mvn spring-boot:run`:
+   ```bash
+   mvn spring-boot:run -Dspring-boot.run.arguments="--logging.level.com.example.sb.log4j2=debug"
+   ```
+   
 ### Define configuration types structure
 
 You might use either java records or java POJOs for such types.
