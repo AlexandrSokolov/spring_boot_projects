@@ -10,14 +10,20 @@
 
 ### [Spring Boot with Docker integration](docker/README.docker.md)
 
+### [Projects overview and their dependencies on each other](./projects.based.info.md)
+
+### Spring Boot with Datasource integration
+
+This is the most complete project that contains most of needed functionality and can be used as a prototype:
+* [Spring Data Jpa with Liquibase](sb_db/sb_jpa_liquibase/README.Jpa.Liquibase.md)
+
+
 ### Spring Boot Web (Rest) Application based on
 
 * [Jakarta WS RS API](sb_web/jakarta_resteasy/README.md)
 * [JaxRs API (deprecated)](sb_web/jaxrs_resteasy/TODO.md)
 
-### Spring Boot with Datasource integration
-
-* [Spring Data Jpa with Liquibase](sb_db/sb_jpa_liquibase/README.Jpa.Liquibase.md)
+### [Spring Boot Logging](sb_logging/README.logging.md)
 
 ### [Spring Boot external configuration with yaml file](sb_external_configuration/README.EXTERNAL.CONFIG.md)
 
@@ -29,4 +35,4 @@ Spring Library and its consumer - the application
 * [Xml based DI with POJOs](sb_di/pojo_xml_di)
 * [Spring Beans Scopes](sb_di/scopes)
 
-### [Spring Boot Cmd app (example with `spring-boot-starter-parent`)](sb_cmd)
+### [Spring Boot Cmd app - startup logic (example with `spring-boot-starter-parent`)](sb_cmd)
