@@ -1,0 +1,31 @@
+app:
+  topic-name: "dev-topic"
+spring:
+  application:
+    name: "test-dev-consumer" # used to generate a consumer name
+  kafka:
+    bootstrap-servers: "localhost:9092"
+    consumer:
+      group-id: "test-consumer-group"
+      client-id: "test-dev-client-id"
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            value:
+              default:
+                type: com.example.sb.kafka.consumer.service.KafkaConsumer$KafkaEvent
+            use:
+              type:
+                headers: "false"
+logging:
+  level:
+    com:
+      example:
+        sb:
+          kafka: info
+    org:
+      springframework: info
+      jboss:
+        resteasy: info
