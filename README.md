@@ -23,6 +23,8 @@ This is the most complete project that contains most of needed functionality and
 * [Jakarta WS RS API](sb_web/jakarta_resteasy/README.md)
 * [JaxRs API (deprecated)](sb_web/jaxrs_resteasy/TODO.md)
 
+### [Spring Boot integration with Kafka](sb_kafka/README.kafka.md)
+
 ### [Spring Boot Logging](sb_logging/README.logging.md)
 
 ### [Spring Boot external configuration with yaml file](sb_external_configuration/README.EXTERNAL.CONFIG.md)

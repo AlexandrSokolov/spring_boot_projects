@@ -8,6 +8,8 @@
 
 https://docs.spring.io/spring-kafka/reference/kafka.html
 
+### consumer project with db integration to save event and 
+
 ### steps to run kafka, run consumer in background, run consumer
 
 ### filter
