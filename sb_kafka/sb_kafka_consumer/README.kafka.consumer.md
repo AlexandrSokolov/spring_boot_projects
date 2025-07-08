@@ -1,8 +1,11 @@
 - [Run Kafka consumer](#run-kafka-consumer-via-async-test)
 - [Kafka Consumer connection](#kafka-consumer-connection)
+- [Multiple Kafka consumer connection URLs](#multiple-kafka-consumer-connection-urls)
 - [Consumer identity](#consumer-identity)
 - [Consumer key/value single deserializer via configuration](#consumer-keyvalue-single-deserializer)
 - [Consumer key/value single deserializer programmatically](#consumer-keyvalue-single-deserializer-programmatically)
+- [TODO Consumer key/value multiple deserializers](#consumer-keyvalue-multiple-deserializers)
+- [TODO Consumer events filter](#consumer-events-filter)
 - [Kafka event metadata](#kafka-event-metadata)
 - [Seeking to a Specific Offset](https://docs.spring.io/spring-kafka/reference/kafka/seek.html)
 
@@ -41,6 +44,17 @@ public class KafkaConsumer {
     System.out.println("Message Headers: " + headers);
   }
 }
+```
+
+### Multiple Kafka consumer connection URLs
+
+```yaml
+spring:
+  kafka:
+    bootstrap-servers: >
+      server1.com:9092,
+      server2.com:9092,
+      server3.com:9092
 ```
 
 ### Consumer identity
@@ -120,6 +134,14 @@ public class KafkaProducerConfig {
   }
 }
 ```
+
+### Consumer key/value multiple deserializers
+
+TODO
+
+### Consumer events filter
+
+TODO
 
 ### Kafka event metadata
 

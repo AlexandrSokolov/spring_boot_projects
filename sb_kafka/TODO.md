@@ -2,7 +2,9 @@
 
 [Seeking to a Specific Offset](https://docs.spring.io/spring-kafka/reference/kafka/seek.html)
 
-### 
+### Consumer key/value multiple deserializers
+
+### Consumer events filter
 
 https://docs.spring.io/spring-kafka/reference/kafka.html
 

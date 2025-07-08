@@ -1,7 +1,45 @@
+- [Run Kafka producer via `KafkaProducerIT` test](src/test/java/com/example/sb/kafka/producer/service/KafkaProducerIT.java)
+- [Kafka Producer connection](#kafka-producer-connection)
+- [Kafka Producer identity](#producer-identity)
+- [Producer key/value single serializer via configuration](#producer-keyvalue-single-serializer)
+- [Producer key/value single serializer programmatically](#producer-keyvalue-single-serializer-programmatically)
 
-### Set producer name
+### Kafka Producer connection
 
-Setting producerr client id is not supported via properties:
+The key configuration for a producer:
+
+```text
+app:
+  topic-name: "dev-topic"
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+```
+[`KafkaProducer`](src/main/java/com/example/sb/kafka/producer/service/KafkaProducer.java):
+
+```java
+@Component
+public class KafkaProducer {
+
+  @Value(value = "${app.topic-name}")
+  private String topicName;
+
+  public record KafkaEvent(
+    String message,
+    String name) {}
+
+  @Autowired
+  private KafkaTemplate<String, KafkaEvent> kafkaTemplate;
+
+  public void sendMessage(KafkaEvent event) {
+    kafkaTemplate.send(topicName, event);
+  }
+}
+```
+
+### Producer identity
+
+Setting producer client id via properties does not function:
 ```yaml
 spring:
   application:
@@ -22,7 +60,7 @@ In the log we'll get:
 ... [Producer clientId=test-dev-producer-producer-1]
 ```
 
-### Set producer key/value serializer/deserializer
+### Producer key/value single serializer
 
 If you use the default serializer/deserializer, you could set them via configuration properties:
 ```yaml
@@ -33,7 +71,7 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 ```
 
-In this case you don't need to create `KafkaProducerConfig`:
+### Producer key/value single serializer programmatically
 
 ```java
 @Configuration
