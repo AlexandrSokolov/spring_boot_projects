@@ -1,3 +1,14 @@
+You still can use it thanks to `log4j-to-slf4j` dependency
+
+```java
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
+class L {
+  //getLogger() associates the returned Logger with the enclosing class, that is, `L` in this example.
+  private static final Logger logger = LogManager.getLogger(); 
+}
+```
 
 `spring-boot-starter-logging` shipped with `log4j-to-slf4j` to translate log4j calls to SLF4J API (Log4j-to-SLF4J bridge):
 
