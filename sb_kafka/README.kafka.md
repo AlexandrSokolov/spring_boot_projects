@@ -3,6 +3,13 @@
 - [Kafka producer](sb_kafka_producer/README.kafka.producer.md)
 - [Kafka consumer](sb_kafka_consumer/README.kafka.consumer.md)
 
+### Run Kafka environment with both producer and consumer
+
+- [Run `Kafka` via `Docker`](kafka_docker_service/README.md)
+- [Connect with a `Kafka` consumer](sb_kafka_consumer/README.kafka.consumer.md)
+- [Run `Kafka` producer](sb_kafka_producer/README.kafka.producer.md)
+
+
 ### Communication with Kafka
 
 To communicate with Kafka you need to know:

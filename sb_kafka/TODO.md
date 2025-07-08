@@ -1,3 +1,7 @@
+### Seeking to a Specific Offset in consumer 
+
+[Seeking to a Specific Offset](https://docs.spring.io/spring-kafka/reference/kafka/seek.html)
+
 ### 
 
 https://docs.spring.io/spring-kafka/reference/kafka.html
