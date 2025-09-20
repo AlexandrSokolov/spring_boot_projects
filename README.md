@@ -6,8 +6,6 @@
 
 ### [Adding `spring-boot` dependencies, opitons](docs/dependency.on.spring.md)
 
-### [Adding `log4j2` api support](docs/sb.logging.md)
-
 ### [Spring Boot with Docker integration](docker/README.docker.md)
 
 ### [Projects overview and their dependencies on each other](./projects.based.info.md)

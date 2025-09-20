@@ -18,6 +18,7 @@ public class AppConfigRestService implements AppConfigRestApi {
 
   @Override
   public AppExternalConfiguration config() {
+    logger.info("Getting AppExternalConfiguration");
     return appExternalConfiguration;
   }
 }

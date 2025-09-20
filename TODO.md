@@ -1,4 +1,10 @@
-### add db integration tests from deka-dim project
+### projects dependency
+
+### docker cron job
+
+### docker logging
+
+### spring boot rest client application
 
 ### spring configuration
 

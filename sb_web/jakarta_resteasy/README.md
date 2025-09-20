@@ -58,7 +58,7 @@ curl -i -X GET -w "\n" http://localhost:8080/actuator/health
     jaxrs:
       app:
         registration: property
-        classes: com.example.jakarta_resteasy.rest.config.JakartaWsConfiguration
+        classes: config.rest.com.example.sb.log4j2.JakartaWsConfiguration
   ```
 
 ### Optional Jakarta Configuration
