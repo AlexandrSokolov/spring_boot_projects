@@ -13,6 +13,7 @@ public class PropertyInjection {
     return q1;
   }
 
+  //not working example, it is not supported
   public String q2() {
     return "${app.test.q2}";
   }

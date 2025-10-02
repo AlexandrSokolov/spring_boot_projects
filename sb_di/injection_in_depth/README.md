@@ -13,12 +13,11 @@ Official documentation:
 
 ### Configuration properties injection
 
-1. You can inject property:
-    ```java
-    @Value("${app.test.q1}")
-    String q1;
-    ```
-2. Or use it without explicit injection: `return "${app.test.q2}";`
+You can inject property:
+```java
+@Value("${app.test.q1}")
+String q1;
+```
 
 See:
 - [`PropertyInjection`](src/main/java/com/savdev/demo/sb/service/PropertyInjection.java)

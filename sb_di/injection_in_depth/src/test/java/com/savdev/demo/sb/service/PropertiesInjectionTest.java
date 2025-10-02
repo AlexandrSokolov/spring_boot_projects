@@ -17,6 +17,11 @@ public class PropertiesInjectionTest {
   @Test
   public void testPropertyInjection() {
     Assertions.assertEquals(q1, propertyInjection.q1());
-    Assertions.assertEquals(q2, propertyInjection.q2());
+  }
+
+  @Test
+  public void testProperty_WithoutAnnotationInjection() {
+    //actually it is not supported:
+    Assertions.assertNotEquals(q2, propertyInjection.q2());
   }
 }
