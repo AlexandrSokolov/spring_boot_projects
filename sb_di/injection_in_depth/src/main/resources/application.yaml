@@ -1,0 +1,4 @@
+app:
+  test:
+    q1: "test property value 1"
+    q2: "test property value 2"

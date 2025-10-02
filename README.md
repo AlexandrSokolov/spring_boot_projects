@@ -34,5 +34,6 @@ Spring Library and its consumer - the application
 * [Annotation Based DI](sb_di/annotation_based_di)
 * [Xml based DI with POJOs](sb_di/pojo_xml_di)
 * [Spring Beans Scopes](sb_di/scopes)
+* [Spring injection in depth](sb_di/injection_in_depth/README.md)
 
 ### [Spring Boot Cmd app - startup logic (example with `spring-boot-starter-parent`)](sb_cmd)
