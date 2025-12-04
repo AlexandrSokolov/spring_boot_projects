@@ -4,6 +4,7 @@
 - [Field Injection issue](#field-injection-issue)
 - [Injection of all beans of the type](#injection-of-all-beans-of-the-type)
 - [How it works when no matching candidate beans are available?](#how-it-works-when-no-matching-candidate-beans-are-available)
+- [What if you want to inject optional dependency?](#what-if-you-want-to-inject-optional-dependency)
 - [Management of multiple beans of the same type](#management-of-multiple-beans-of-the-same-type)
 - [Using Generics as Autowiring Qualifiers](#generics-as-autowiring-qualifiers)
 - [Support of other injection-related annotations](#support-of-other-injection-related-annotations)
@@ -55,10 +56,28 @@ Issues:
 
 ### Injection of all beans of the type
 
+The map values are all beans of the expected type, and the keys are the corresponding bean names, 
+as the following example shows:
+```java
+public class MovieRecommender {
+
+  private Map<String, MovieCatalog> movieCatalogs;
+
+  @Autowired
+  public void setMovieCatalogs(Map<String, MovieCatalog> movieCatalogs) {
+    this.movieCatalogs = movieCatalogs;
+  }
+
+  // ...
+}
+```
+
 ### How it works when no matching candidate beans are available?
 
 By default, autowiring fails when no matching candidate beans are available for a given injection point. 
 In the case of a declared array, collection, or map, at least one matching element is expected.
+
+### What if you want to inject optional dependency?
 
 The default behavior is to treat annotated methods and fields as indicating required dependencies.
 

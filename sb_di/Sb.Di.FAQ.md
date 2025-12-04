@@ -6,7 +6,7 @@
 - [Adding specific configuration beans into the context](#adding-specific-configuration-beans-into-spring-context)
 - [Best Practices for Component Scanning](#best-practices-for-component-scanning)
 - [Overriding Spring Beans in Integration Tests](#overriding-spring-beans-in-integration-tests)
-- [Spring context tuning in tests]()
+- [Spring context tuning in tests](#spring-context-tuning-in-tests)
 
 
 Subprojects:
