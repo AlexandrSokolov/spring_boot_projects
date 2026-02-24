@@ -1,3 +1,133 @@
+Difference Between @SpringBootTest and @SpringBootTest(webEnvironment = DEFINED_PORT)
+Let’s break down the practical difference and how it affects YOUR proxy tests.
+
+⭐ 1. @SpringBootTest (default configuration)
+Java@SpringBootTestclass MyTest { ... }Show more lines
+This is equivalent to:
+Java@SpringBootTest(webEnvironment = WebEnvironment.MOCK)Show more lines
+Meaning:
+✔ Spring Boot starts the full application context
+BUT:
+❌ No real HTTP server is started
+
+No Tomcat, no Jetty.
+No real port is opened.
+MVC calls go through MockMvc-like internal dispatching.
+
+✔ HTTP requests never leave the JVM
+
+You cannot call http://localhost:8080/...
+You cannot use a real REST client like RESTEasy or RestTemplate to call the controller
+Because there is no real server listening on 8080.
+
+GOOD FOR:
+
+Unit tests
+MockMvc tests
+Controller logic tests without networking
+Very fast tests
+
+BAD FOR:
+
+Testing reverse proxies
+Testing CORS
+Testing real forwarding
+Using RESTEasyClient
+Testing real servlet behavior
+
+
+⭐ 2. @SpringBootTest(webEnvironment = DEFINED_PORT)
+Java@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)Show more lines
+This does something completely different:
+✔ Starts the full Spring Boot application
+✔ Starts the real embedded server
+(Tomcat by default)
+✔ Exposes a real HTTP port
+It uses:
+
+server.port property
+or defaults to 8080 if none is defined
+
+✔ Allows real external HTTP calls
+You can now:
+
+Use RESTEasy client
+Use RestTemplate
+Use curl
+Open browser to http://localhost:8080
+
+You get a real full-stack running server, not a mock environment.
+PERFECT FOR:
+
+Integration tests
+Testing proxy forwarding
+Testing filters, interceptors
+Testing Spring Security + redirects
+Testing your RESTEasy → backend forwarding
+Testing real HTTP headers, cookies, etc.
+
+REQUIRED FOR YOUR use case
+because:
+Your controller is a real HTTP reverse proxy, and RESTEasy must call a real URL.
+
+3. Comparison Table
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Feature@SpringBootTest (default)@SpringBootTest(DEFINED_PORT)Starts real HTTP server❌ No✔ YesCan call http://localhost:8080❌ No✔ YesRESTEasyClient works❌ Cannot✔ WorksPerfect for your proxy forwarding tests❌ No✔ YESMVC dispatchInternal / mockReal networkSecurity filters activePartiallyFullyCookie handlingMockedReal browser behaviorTomcat startupNoYesFast✔❌ slower
+
 
 - [Configuration properties injection](#configuration-properties-injection)
 - [Injection ways/location](#injection-wayslocation)
